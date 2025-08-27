@@ -27,6 +27,7 @@
             background-color: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(4px);
             z-index: 10;
+            transition: opacity 0.3s ease-in-out;
         }
         .loader {
             border: 4px solid #f3f3f3;
@@ -96,11 +97,12 @@
     <!-- Startup Loader -->
     <div id="startup-loader">
         <h1 class="text-5xl md:text-6xl font-bold text-blue-900 mb-4 animate-pulse">Legalify</h1>
-        <p class="text-slate-600 text-center text-md md:text-lg">
+        <p class="text-slate-600 text-center text-md md:text-lg px-4">
             Made in India, Made for India.
             <br>
             Now no more Indians will be fooled.
         </p>
+        <p class="text-slate-400 text-sm mt-12 absolute bottom-8">Dev: Mudit Vij, DEI Agra</p>
     </div>
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
@@ -150,9 +152,11 @@
                 <h2 class="text-2xl font-semibold text-blue-800 mb-4">2. Simplified Analysis</h2>
                 
                 <div id="responseContainer" class="relative">
-                    <div id="loader" class="loader-container hidden flex-col items-center justify-center rounded-xl">
-                        <div class="loader"></div>
-                        <p class="mt-4 text-slate-600">Analyzing your document...</p>
+                    <div id="loader" class="loader-container hidden items-center justify-center rounded-xl">
+                        <div class="flex flex-col items-center">
+                            <div class="loader"></div>
+                            <p class="mt-4 text-slate-600 font-medium">Analyzing your document...</p>
+                        </div>
                     </div>
                     <div id="responseBox" class="bg-slate-50 border border-slate-200 rounded-xl p-4 min-h-[200px] text-slate-800 whitespace-pre-wrap fade-in">
                         Your simplified summary will appear here.
@@ -206,7 +210,9 @@
         let originalDocumentText = '';
         let chatHistory = [];
 
-        // --- Startup Loader ---
+        /**
+         * Shows the startup loader for a few seconds on page load.
+         */
         window.addEventListener('load', () => {
             const loader = document.getElementById('startup-loader');
             setTimeout(() => {
@@ -214,7 +220,10 @@
             }, 2500);
         });
 
-        // --- UI Control ---
+        /**
+         * Toggles between the text input and PDF upload tabs.
+         * @param {string} tabName - The name of the tab to show ('text' or 'pdf').
+         */
         function showTab(tabName) {
             document.getElementById('textInputArea').classList.toggle('hidden', tabName !== 'text');
             document.getElementById('pdfInputArea').classList.toggle('hidden', tabName !== 'pdf');
@@ -224,6 +233,9 @@
             document.getElementById('pdfTab').classList.toggle('border-blue-600', tabName === 'pdf');
         }
 
+        /**
+         * Clears all input fields and resets the output areas.
+         */
         function clearInputs() {
             document.getElementById('userInput').value = '';
             document.getElementById('pdfInput').value = '';
@@ -235,6 +247,10 @@
             chatHistory = [];
         }
 
+        /**
+         * Handles the PDF file upload, extracts text, and places it in the textarea.
+         * @param {Event} event - The file input change event.
+         */
         async function handlePdfUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -248,7 +264,6 @@
                 const reader = new FileReader();
                 reader.onload = async function(e) {
                     const typedarray = new Uint8Array(e.target.result);
-                    // Set workerSrc for pdf.js
                     pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js`;
                     const pdf = await pdfjsLib.getDocument(typedarray).promise;
                     let textContent = '';
@@ -269,7 +284,12 @@
             }
         }
 
-        // --- API Communication ---
+        /**
+         * Sends a prompt to the Gemini API and returns the response.
+         * @param {string} prompt - The prompt to send to the model.
+         * @param {boolean} showLoading - Whether to show the main loader.
+         * @returns {Promise<string>} The text response from the model.
+         */
         async function callGemini(prompt, showLoading = true) {
             if (showLoading) {
                 document.getElementById('loader').classList.remove('hidden');
@@ -303,10 +323,12 @@
             }
         }
 
-        // --- Core Functionality ---
+        /**
+         * Main function to start the document simplification process.
+         */
         async function simplifyDocument() {
             originalDocumentText = document.getElementById("userInput").value.trim();
-            if (originalDocumentText.length < 50) { // Basic validation for input length
+            if (originalDocumentText.length < 10) { 
                 showMessage("The provided text is too short. Please input a valid legal document.");
                 return;
             }
@@ -351,6 +373,9 @@
             document.getElementById('chatHistory').innerHTML = '';
         }
 
+        /**
+         * Translates the current summary to a selected language.
+         */
         async function translateSummary() {
             const currentSummary = document.getElementById('responseBox').innerText;
             const targetLanguage = document.getElementById('languageSelector').value;
@@ -359,6 +384,9 @@
             displayResponse(translatedText);
         }
 
+        /**
+         * Asks a follow-up question about the document.
+         */
         async function askQuestion() {
             const question = document.getElementById('chatInput').value.trim();
             if (!question) return;
@@ -367,24 +395,40 @@
             document.getElementById('chatInput').value = '';
 
             const prompt = `
-                Based on the provided legal document, answer the user's question. Be concise and clear.
-                Original Document:
+                You are the 'Legalify Assistant', a helpful AI specializing in analyzing a specific legal document provided by the user. Your primary goal is to answer the user's questions based *only* on the information contained within that document.
+
+                **Rules:**
+                1.  **Stick to the Source:** Your answers must be directly derived from the 'Original Document' text below. Do not use external knowledge or make assumptions.
+                2.  **If You Don't Know, Say So:** If the document does not contain the answer to the user's question, you must clearly state that. For example, say "I couldn't find information about that in the document provided."
+                3.  **Keep it Simple:** Use clear, simple, and jargon-free language, just like in the initial summary.
+                4.  **Be Conversational:** Answer in a helpful and direct tone.
+
+                **Original Document:**
                 ---
                 ${originalDocumentText}
                 ---
-                User's Question: "${question}"
+
+                **User's Question:** "${question}"
             `;
             
             const answer = await callGemini(prompt, false);
             updateChatHistory('model', answer);
         }
 
-        // --- UI Updates & Helpers ---
+        /**
+         * Displays the formatted response text in the output box.
+         * @param {string} text - The text to display.
+         */
         function displayResponse(text) {
             const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
             document.getElementById('responseBox').innerHTML = formattedText;
         }
         
+        /**
+         * Adds a new message to the chat history UI.
+         * @param {string} role - The role of the sender ('user' or 'model').
+         * @param {string} text - The message content.
+         */
         function updateChatHistory(role, text) {
             const chatHistoryDiv = document.getElementById('chatHistory');
             const messageDiv = document.createElement('div');
@@ -402,6 +446,9 @@
             chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
         }
 
+        /**
+         * Prepares the summary content for printing and opens the print dialog.
+         */
         function printSummary() {
             const summaryContent = document.getElementById('responseBox').innerHTML;
             const printContentDiv = document.getElementById('print-content');
@@ -409,6 +456,10 @@
             window.print();
         }
         
+        /**
+         * Displays a simple notification message in the response box.
+         * @param {string} message - The message to show.
+         */
         function showMessage(message) {
             const responseBox = document.getElementById('responseBox');
             responseBox.innerHTML = `🔔 ${message}`;
@@ -417,3 +468,4 @@
     </script>
 </body>
 </html>
+
