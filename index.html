@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legalify - Simplify Legal Documents</title>
+    <title>Legalify - Your Personal Legal Consultant</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Lighter grey background */
         }
         .brand-gradient {
-            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            background: linear-gradient(to right, #06b6d4, #3b82f6);
         }
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
@@ -24,14 +26,14 @@
         .loader-container {
             position: absolute;
             inset: 0;
-            background-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(4px);
             z-index: 10;
             transition: opacity 0.3s ease-in-out;
         }
         .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3b82f6;
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid #0ea5e9;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -41,7 +43,6 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        /* Custom scrollbar for chat */
         #chatHistory::-webkit-scrollbar {
             width: 6px;
         }
@@ -49,164 +50,122 @@
             background: #f1f5f9;
         }
         #chatHistory::-webkit-scrollbar-thumb {
-            background: #94a3b8;
+            background: #cbd5e1;
             border-radius: 3px;
         }
-        #chatHistory::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
-        /* Startup Loader Styles */
         #startup-loader {
-            position: fixed;
-            inset: 0;
-            background-color: #ffffff;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            position: fixed; inset: 0; background-color: #ffffff; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
         }
         #startup-loader.hidden {
-            opacity: 0;
-            visibility: hidden;
+            opacity: 0; visibility: hidden;
         }
-        /* Print-specific styles */
         @media print {
-            body * {
-                visibility: hidden;
-            }
-            #print-area, #print-area * {
-                visibility: visible;
-            }
-            #print-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                padding: 2rem;
-            }
-            h1, h2, h3 {
-                color: #000 !important;
-            }
+            body * { visibility: hidden; }
+            #print-area, #print-area * { visibility: visible; }
+            #print-area { position: absolute; left: 0; top: 0; width: 100%; padding: 2rem; }
+            h1, h2, h3 { color: #000 !important; }
+        }
+        .hackathon-card {
+            background-color: white;
+            border-radius: 1.5rem; /* More rounded */
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .hackathon-card:hover {
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800">
+<body class="text-gray-800">
 
     <!-- Startup Loader -->
     <div id="startup-loader">
-        <h1 class="text-5xl md:text-6xl font-bold text-blue-900 mb-4 animate-pulse">Legalify</h1>
-        <p class="text-slate-600 text-center text-md md:text-lg px-4">
+        <h1 class="text-5xl md:text-6xl font-bold text-gray-800 mb-4 animate-pulse">Legalify</h1>
+        <p class="text-gray-500 text-center text-md md:text-lg px-4">
             Made in India, Made for India.
             <br>
             Now no more Indians will be fooled.
         </p>
-        <p class="text-slate-400 text-sm mt-12 absolute bottom-8">Dev: Mudit Vij, DEI Agra</p>
+        <p class="text-gray-400 text-sm mt-12 absolute bottom-8">Dev: Mudit Vij, DEI Agra</p>
     </div>
 
     <div class="container mx-auto p-4 md:p-8 max-w-7xl">
         <!-- Header -->
-        <header class="text-center mb-8 md:mb-12">
-            <h1 class="text-4xl md:text-5xl font-bold text-blue-900">Legalify</h1>
-            <p class="text-slate-500 mt-2 text-lg">Your personal legal document assistant.</p>
+        <header class="text-center mb-10 md:mb-16">
+            <h1 class="text-5xl font-bold text-gray-800">Legalify</h1>
+            <p class="text-gray-500 mt-2 text-xl">Your Personal Legal Consultant</p>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <!-- Feature 1 -->
+                <div class="flex items-center space-x-3 p-4 bg-white rounded-xl border border-gray-200">
+                    <svg class="w-8 h-8 text-cyan-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div>
+                        <h3 class="font-semibold text-gray-700">Simple & Straightforward</h3>
+                        <p class="text-gray-500 text-sm">No more confusing jargon.</p>
+                    </div>
+                </div>
+                <!-- Feature 2 -->
+                <div class="flex items-center space-x-3 p-4 bg-white rounded-xl border border-gray-200">
+                    <svg class="w-8 h-8 text-cyan-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <div>
+                        <h3 class="font-semibold text-gray-700">Instant Legal Analysis</h3>
+                        <p class="text-gray-500 text-sm">Understand documents in seconds.</p>
+                    </div>
+                </div>
+                <!-- Feature 3 -->
+                <div class="flex items-center space-x-3 p-4 bg-white rounded-xl border border-gray-200">
+                    <svg class="w-8 h-8 text-cyan-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    <div>
+                        <h3 class="font-semibold text-gray-700">100% Data Privacy</h3>
+                        <p class="text-gray-500 text-sm">Client-side encryption.</p>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Left Column: Input & Actions -->
-            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-slate-200 flex flex-col">
-                <h2 class="text-2xl font-semibold text-blue-800 mb-4">1. Provide Your Document</h2>
-                
-                <div class="flex border-b mb-4">
+            <div class="hackathon-card p-6 md:p-8 flex flex-col">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">1. Provide Your Document</h2>
+                <div class="flex border-b border-gray-200 mb-4">
                     <button id="textTab" class="px-4 py-2 text-blue-600 border-b-2 border-blue-600 font-semibold" onclick="showTab('text')">Paste Text</button>
-                    <button id="pdfTab" class="px-4 py-2 text-slate-500 font-semibold" onclick="showTab('pdf')">Upload PDF</button>
+                    <button id="pdfTab" class="px-4 py-2 text-gray-500 font-semibold" onclick="showTab('pdf')">Upload PDF</button>
                 </div>
-
                 <div class="flex-grow">
-                    <div id="textInputArea">
-                        <textarea id="userInput" class="w-full h-full min-h-[250px] p-4 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition duration-300" placeholder="Paste your legal document text here..."></textarea>
-                    </div>
-                    
-                    <div id="pdfInputArea" class="hidden">
-                         <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 transition duration-300 h-full flex flex-col justify-center items-center" onclick="document.getElementById('pdfInput').click()">
-                            <input type="file" id="pdfInput" class="hidden" accept=".pdf" onchange="handlePdfUpload(event)">
-                            <svg class="mx-auto h-12 w-12 text-slate-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                            <p id="pdfFileName" class="mt-2 text-sm text-slate-600">Click to upload a PDF file</p>
-                            <p class="text-xs text-slate-500">Maximum size: 10MB</p>
-                        </div>
-                    </div>
+                    <div id="textInputArea"><textarea id="userInput" class="w-full h-full min-h-[250px] p-4 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition duration-300" placeholder="Paste your legal document text here..."></textarea></div>
+                    <div id="pdfInputArea" class="hidden"><div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center cursor-pointer hover:border-blue-500 transition duration-300 h-full flex flex-col justify-center items-center" onclick="document.getElementById('pdfInput').click()"><input type="file" id="pdfInput" class="hidden" accept=".pdf" onchange="handlePdfUpload(event)"><svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><p id="pdfFileName" class="mt-2 text-sm text-gray-600">Click to upload a PDF file</p><p class="text-xs text-gray-500">Maximum size: 10MB</p></div></div>
                 </div>
-
-                <div class="grid grid-cols-2 gap-4 mt-6">
-                    <button onclick="clearInputs()" class="w-full px-6 py-3 bg-slate-200 text-slate-700 font-bold rounded-xl shadow-sm hover:bg-slate-300 transition-all duration-300">
-                        Clear
-                    </button>
-                    <button onclick="simplifyDocument()" class="w-full px-6 py-3 brand-gradient text-white font-bold rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-                        Simplify & Analyze
-                    </button>
-                </div>
+                <div class="grid grid-cols-2 gap-4 mt-6"><button onclick="clearInputs()" class="w-full px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl shadow-sm hover:bg-gray-300 transition-all duration-300">Clear</button><button onclick="simplifyDocument()" class="w-full px-6 py-3 brand-gradient text-white font-bold rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">Simplify & Analyze</button></div>
             </div>
 
             <!-- Right Column: Output & Chat -->
-            <div class="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-slate-200">
-                <h2 class="text-2xl font-semibold text-blue-800 mb-4">2. Simplified Analysis</h2>
-                
+            <div class="hackathon-card p-6 md:p-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">2. Simplified Analysis</h2>
                 <div id="responseContainer" class="relative">
-                    <div id="loader" class="loader-container hidden items-center justify-center rounded-xl">
-                        <div class="flex flex-col items-center">
-                            <div class="loader"></div>
-                            <p class="mt-4 text-slate-600 font-medium">Analyzing your document...</p>
-                        </div>
-                    </div>
-                    <div id="responseBox" class="bg-slate-50 border border-slate-200 rounded-xl p-4 min-h-[200px] text-slate-800 whitespace-pre-wrap fade-in">
-                        Your simplified summary will appear here.
-                    </div>
+                    <div id="loader" class="loader-container hidden items-center justify-center rounded-xl"><div class="flex flex-col items-center"><div class="loader"></div><p class="mt-4 text-gray-600 font-medium">Analyzing your document...</p></div></div>
+                    <div id="responseBox" class="bg-blue-50 border border-blue-200 rounded-xl p-4 min-h-[200px] text-gray-800 whitespace-pre-wrap fade-in">Your simplified summary will appear here.</div>
                 </div>
-
-                <div id="actionButtons" class="hidden mt-4 flex flex-wrap gap-2">
-                     <select id="languageSelector" class="px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 transition duration-300 focus:ring-2 focus:ring-blue-500 outline-none">
-                        <option value="en">English</option>
-                        <option value="hi">Hindi (हिन्दी)</option>
-                        <option value="bn">Bengali (বাংলা)</option>
-                        <option value="te">Telugu (తెలుగు)</option>
-                        <option value="mr">Marathi (मराठी)</option>
-                        <option value="ta">Tamil (தமிழ்)</option>
-                        <option value="gu">Gujarati (ગુજરાતી)</option>
-                        <option value="kn">Kannada (ಕನ್ನಡ)</option>
-                    </select>
-                    <button onclick="translateSummary()" class="px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 transition duration-300">Translate</button>
-                    <button onclick="printSummary()" class="px-4 py-2 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 transition duration-300">Print Summary</button>
-                </div>
-
+                <div id="actionButtons" class="hidden mt-4 flex flex-wrap gap-2"><select id="languageSelector" class="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition duration-300 focus:ring-2 focus:ring-blue-500 outline-none"><option value="en">English</option><option value="hi">Hindi (हिन्दी)</option><option value="bn">Bengali (বাংলা)</option><option value="te">Telugu (తెలుగు)</option><option value="mr">Marathi (मराठी)</option><option value="ta">Tamil (தமிழ்)</option><option value="gu">Gujarati (ગુજરાતી)</option><option value="kn">Kannada (ಕನ್ನಡ)</option></select><button onclick="translateSummary()" class="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition duration-300">Translate</button><button onclick="printSummary()" class="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition duration-300">Print Summary</button></div>
                 <div id="chatSection" class="hidden mt-6">
-                    <h3 class="text-lg font-semibold text-blue-800 mb-2">Ask Questions</h3>
-                    <div id="chatHistory" class="h-48 overflow-y-auto bg-slate-50 border border-slate-200 rounded-xl p-3 mb-2 space-y-2">
-                    </div>
-                    <div class="flex gap-2">
-                        <input type="text" id="chatInput" class="flex-grow p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Ask about the document..." onkeydown="if(event.key === 'Enter') askQuestion()">
-                        <button onclick="askQuestion()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">Send</button>
-                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Ask Follow-up Questions</h3>
+                    <div id="chatHistory" class="h-48 overflow-y-auto bg-gray-50 border border-gray-200 rounded-xl p-3 mb-2 space-y-2"></div>
+                    <div class="flex gap-2"><input type="text" id="chatInput" class="flex-grow p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Ask about the document..." onkeydown="if(event.key === 'Enter') askQuestion()"><button onclick="askQuestion()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">Send</button></div>
                 </div>
             </div>
         </main>
-
-        <footer class="text-center mt-8 md:mt-12 text-slate-500 text-sm">
+        <footer class="text-center mt-8 md:mt-12 text-gray-500 text-sm">
             <p>Developed by Mudit Vij - DEI, AGRA</p>
-            <p>
-                Contact: +91 8630044552 | 
-                <a href="https://www.linkedin.com/in/mudit-vij/" target="_blank" class="text-blue-600 hover:underline">LinkedIn</a>
-            </p>
+            <p>Contact: +91 8630044552 | <a href="https://www.linkedin.com/in/mudit-vij/" target="_blank" class="text-blue-600 hover:underline">LinkedIn</a></p>
         </footer>
     </div>
 
     <!-- Hidden Printable Area -->
-    <div id="print-area" class="hidden">
-        <div id="print-content"></div>
-    </div>
+    <div id="print-area" class="hidden"><div id="print-content"></div></div>
 
-    <script src="script.js">
-       
-    </script>
+    <script src="script.js"></script>
+
 </body>
 </html>
 
