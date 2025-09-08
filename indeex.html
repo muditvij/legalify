@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEI Alumni Platform - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 2px;
+        }
+        .sidebar-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div id="app" class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-slate-900 text-white flex-col flex-shrink-0 transition-transform duration-300 ease-in-out lg:translate-x-0 -translate-x-full fixed lg:relative h-full z-30">
+            <!-- Logo and Institute Name -->
+            <div class="flex items-center justify-center p-4 border-b border-slate-700 h-16">
+                 <svg class="h-8 w-8 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.906 59.906 0 0112 3.493a59.903 59.903 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0l-.07.002-.018.002-.006.001c.01.001.01.001.015.002L12 10.148l6.732-.001c.005 0 .005-.001.015-.002l-.006-.001-.018-.002-.07-.002M12 10.148v6.75" />
+                </svg>
+                <h1 class="text-lg font-semibold ml-2">D.E.I. Alumni</h1>
+            </div>
+            
+            <!-- Profile -->
+            <div class="p-4 mt-2">
+                <div class="flex items-center">
+                    <img src="https://placehold.co/40x40/E2E8F0/475569?text=AS" alt="Anjali Sharma" class="w-10 h-10 rounded-full border-2 border-slate-500">
+                    <div class="ml-3">
+                        <p class="font-semibold text-sm">Anjali Sharma</p>
+                        <p class="text-xs text-slate-400">Class of 2015</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 px-2 py-4 space-y-1 sidebar-scrollbar overflow-y-auto">
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium bg-slate-700 rounded-lg">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h7.5" /></svg>
+                    Home
+                </a>
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.663v.005A7.5 7.5 0 0115 19.128z" /></svg>
+                    Directory
+                </a>
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                    Events
+                </a>
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    Mentorship Hub
+                </a>
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.07a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18.22V6.11a2.25 2.25 0 012.25-2.25h2.25m.106 13.528l.018-.018m.252-1.457l.018-.018M10.75 4.5h6m-6 2.25h6m-6 2.25h6M10.75 18l.018-.018m.252-1.457l.018-.018M10.75 14.25h6" /></svg>
+                    Job Board
+                </a>
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.5-2.962A3 3 0 0110.5 9.75v-.75a3 3 0 00-3-3h-1.5a3 3 0 00-3 3v.75a3 3 0 013 3v-2.25m9.345-6.043l-2.81-2.81a3 3 0 00-4.242 0l-2.81 2.81" /></svg>
+                    Groups
+                </a>
+                <a href="#" class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors">
+                    <svg class="h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 1012 10.125A2.625 2.625 0 0012 4.875z" /></svg>
+                    Donate
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 flex-shrink-0">
+                <div class="flex items-center">
+                    <button id="menu-toggle" class="lg:hidden mr-4 text-slate-600">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                    <h2 class="text-xl font-bold text-slate-800 hidden sm:block">Dashboard</h2>
+                </div>
+                <div class="flex items-center space-x-4">
+                     <div class="relative w-full max-w-xs">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-slate-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input type="text" class="bg-slate-100 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5" placeholder="Search...">
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content Area -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-100 p-4 sm:p-6 lg:p-8">
+                <div class="grid grid-cols-12 gap-6">
+
+                    <!-- Left/Center Column -->
+                    <div class="col-span-12 lg:col-span-8">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold text-slate-800">Welcome Back, Anjali!</h3>
+                            <p class="text-slate-500">Here's what's happening in your alumni network.</p>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-shadow border border-slate-200 flex flex-col items-center justify-center text-center">
+                                <div class="p-3 bg-blue-100 rounded-full mb-3">
+                                    <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" /></svg>
+                                </div>
+                                <h4 class="font-semibold text-slate-700">Update Your Profile</h4>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-shadow border border-slate-200 flex flex-col items-center justify-center text-center">
+                                <div class="p-3 bg-green-100 rounded-full mb-3">
+                                    <svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+                                </div>
+                                <h4 class="font-semibold text-slate-700">Find a Mentee</h4>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm hover:shadow-lg transition-shadow border border-slate-200 flex flex-col items-center justify-center text-center">
+                               <div class="p-3 bg-amber-100 rounded-full mb-3">
+                                     <svg class="h-6 w-6 text-amber-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                                </div>
+                                <h4 class="font-semibold text-slate-700">Upcoming Reunion</h4>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic News Feed -->
+                        <div class="space-y-6">
+                            <!-- Event Card -->
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-slate-200">
+                                <img src="https://placehold.co/800x400/0f172a/f59e0b?text=Annual+Alumni+Meet+2025" alt="Annual Alumni Meet 2025" class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <p class="text-sm font-semibold text-blue-600">UPCOMING EVENT</p>
+                                    <h3 class="text-xl font-bold text-slate-800 mt-1">Annual Alumni Meet 2025</h3>
+                                    <p class="text-slate-500 mt-2">Join us for an evening of networking, nostalgia, and celebration. Reconnect with old friends and faculty at the main campus auditorium.</p>
+                                    <div class="flex items-center text-sm text-slate-600 mt-4 space-x-4">
+                                        <div class="flex items-center"><svg class="h-4 w-4 mr-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>Dec 15, 2025</div>
+                                        <div class="flex items-center"><svg class="h-4 w-4 mr-1.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>DEI Campus, Agra</div>
+                                    </div>
+                                    <div class="mt-6 flex items-center justify-between">
+                                        <div class="flex -space-x-2">
+                                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://placehold.co/32x32/FFC107/FFFFFF?text=R" alt="Rohan">
+                                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://placehold.co/32x32/4CAF50/FFFFFF?text=P" alt="Priya">
+                                            <img class="inline-block h-8 w-8 rounded-full ring-2 ring-white" src="https://placehold.co/32x32/2196F3/FFFFFF?text=S" alt="Sameer">
+                                            <div class="flex items-center justify-center h-8 w-8 rounded-full ring-2 ring-white bg-slate-200 text-xs font-semibold text-slate-600">+42 attending</div>
+                                        </div>
+                                        <button class="bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">RSVP Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Alumni Spotlight Card -->
+                             <div class="bg-white rounded-xl shadow-sm p-6 border border-slate-200">
+                                <p class="text-sm font-semibold text-amber-600">ALUMNI SPOTLIGHT</p>
+                                <div class="flex items-start space-x-4 mt-3">
+                                    <img src="https://placehold.co/64x64/EAB308/FFFFFF?text=RV" alt="Rohan Verma" class="w-16 h-16 rounded-full flex-shrink-0">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-slate-800">Rohan Verma</h3>
+                                        <p class="text-slate-500">CEO at TechSolutions Inc. | Class of 2008</p>
+                                        <p class="text-slate-600 mt-2 text-sm">"DEI provided the foundation for my entire career. The lessons I learned, both inside and outside the classroom, have been invaluable..."</p>
+                                        <a href="#" class="text-blue-600 hover:underline font-semibold mt-3 inline-block text-sm">Read Full Story &rarr;</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="col-span-12 lg:col-span-4">
+                        <div class="space-y-6 sticky top-6">
+                            <!-- Upcoming Events Widget -->
+                            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-4">Upcoming Events</h4>
+                                <ul class="space-y-4">
+                                    <li class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 bg-slate-200 rounded-lg flex flex-col items-center justify-center font-bold text-slate-700">
+                                            <span class="text-xs">SEP</span>
+                                            <span class="text-lg">28</span>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-sm text-slate-700">Guest Lecture: AI in Fintech</p>
+                                            <p class="text-xs text-slate-500">Online Event</p>
+                                        </div>
+                                    </li>
+                                     <li class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 bg-slate-200 rounded-lg flex flex-col items-center justify-center font-bold text-slate-700">
+                                            <span class="text-xs">OCT</span>
+                                            <span class="text-lg">12</span>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-sm text-slate-700">Mumbai Alumni Chapter Meetup</p>
+                                            <p class="text-xs text-slate-500">Mumbai, India</p>
+                                        </div>
+                                    </li>
+                                     <li class="flex items-center space-x-4">
+                                        <div class="w-12 h-12 bg-blue-600 text-white rounded-lg flex flex-col items-center justify-center font-bold">
+                                            <span class="text-xs">DEC</span>
+                                            <span class="text-lg">15</span>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-sm text-slate-700">Annual Alumni Meet 2025</p>
+                                            <p class="text-xs text-slate-500">DEI Campus, Agra</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <a href="#" class="text-sm font-semibold text-blue-600 hover:underline mt-4 block text-center">View all events</a>
+                            </div>
+                            
+                            <!-- Suggested Connections Widget -->
+                             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-4">Suggested Connections</h4>
+                                <ul class="space-y-4">
+                                    <li class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <img src="https://placehold.co/40x40/FFC107/FFFFFF?text=PS" alt="Priya Singh" class="w-10 h-10 rounded-full">
+                                            <div class="ml-3">
+                                                <p class="font-semibold text-sm text-slate-700">Priya Singh</p>
+                                                <p class="text-xs text-slate-500">Product Manager at Google</p>
+                                            </div>
+                                        </div>
+                                        <button class="text-slate-400 hover:text-slate-600 p-1.5 rounded-full hover:bg-slate-100"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.5 21c-2.331 0-4.512-.645-6.374-1.766z" /></svg></button>
+                                    </li>
+                                     <li class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <img src="https://placehold.co/40x40/2196F3/FFFFFF?text=SK" alt="Sameer Khan" class="w-10 h-10 rounded-full">
+                                            <div class="ml-3">
+                                                <p class="font-semibold text-sm text-slate-700">Sameer Khan</p>
+                                                <p class="text-xs text-slate-500">Data Scientist at Microsoft</p>
+                                            </div>
+                                        </div>
+                                        <button class="text-slate-400 hover:text-slate-600 p-1.5 rounded-full hover:bg-slate-100"><svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.5 21c-2.331 0-4.512-.645-6.374-1.766z" /></svg></button>
+                                    </li>
+                                </ul>
+                             </div>
+
+                             <!-- My Mentorships Widget -->
+                             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                                <h4 class="font-bold text-slate-800 mb-4">My Mentorships</h4>
+                                <div class="bg-slate-50 border border-slate-200 p-4 rounded-lg">
+                                    <div class="flex items-center justify-between">
+                                        <p class="text-sm font-semibold text-slate-700">Mentoring Rahul Gupta</p>
+                                        <span class="px-2 py-0.5 text-xs font-medium text-green-800 bg-green-100 rounded-full">Active</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-1">B.Tech CS, Final Year</p>
+                                    <div class="w-full bg-slate-200 rounded-full h-1.5 mt-3">
+                                        <div class="bg-green-500 h-1.5 rounded-full" style="width: 75%"></div>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-1 text-right">75% Complete</p>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+        <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-20 hidden"></div>
+    </div>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+        }
+
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleSidebar();
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            toggleSidebar();
+        });
+        
+        // Close sidebar on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !sidebar.classList.contains('-translate-x-full')) {
+                toggleSidebar();
+            }
+        });
+    </script>
+</body>
+</html>
